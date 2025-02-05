@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Árbol (Lista) -->
+    <record id="view_tickets_module_tree" model="ir.ui.view">
+        <field name="name">tickets_module.tickets_module.tree</field>
+        <field name="model">tickets_module.tickets_module</field>
+        <field name="arch" type="xml">
+            <tree string="Tickets">
+                <field name="name"/>
+                <field name="status"/>
+                <field name="date_open"/>
+                <field name="date_closed" decoration-danger="date_closed"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de Formulario -->
+    <record id="view_tickets_module_form" model="ir.ui.view">
+        <field name="name">tickets_module.tickets_module.form</field>
+        <field name="model">tickets_module.tickets_module</field>
+        <field name="arch" type="xml">
+            <form string="Ticket">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="status"/>
+                        <field name="date_open"/>
+                        <field name="date_closed" attrs="{'invisible': [('id', '=', False)]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Acción para abrir la vista de los tickets -->
+    <record id="action_tickets_module" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">tickets_module.tickets_module</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menú para acceder a los tickets -->
+    <menuitem id="tickets_module_menu" name="Tickets" sequence="10"/>
+    <menuitem id="submenu_tickets" name="Tickets" parent="tickets_module_menu" action="action_tickets_module" sequence="1"/>
+</odoo>
