@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  TicketsApp:
+    image: odoo:16.0
+    container_name: TicketsApp
+    volumes:
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+    ports:
+      - "8069:8069"
+    environment:
+      - HOST=ticketsDB
+      - USER=odoo
+      - PASSWORD=odoo
+    depends_on:
+      - ticketsDB
+    networks:
+      - tickets_network
+
+  ticketsDB:
+    image: postgres:13
+    container_name: ticketsDB
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+    networks:
+      - tickets_network
+    volumes:
+      - tickets_data:/var/lib/postgresql/data
+
+networks:
+  tickets_network:
+    driver: bridge
+volumes:
+  tickets_data:
+    driver: local
