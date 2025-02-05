@@ -1,6 +1,6 @@
 <odoo>
   <record id="model_access_ticket" model="ir.model.access">
-    <field name="name">model.access.tickets_module.module</field>
+    <field name="name">model.access.tickets_module</field>
     <field name="model_id" ref="tickets_module.model_tickets_module_tickets_module"/>
     <field name="group_id" ref="base.group_system"/>
     <field name="perm_read" eval="1"/>
@@ -8,4 +8,15 @@
     <field name="perm_write" eval="1"/>
     <field name="perm_unlink" eval="1"/>
   </record>
+
+
+  <record id="tickets_module_rule_user" model="ir.rule">
+    <field name="name">Tickets: User Access</field>
+    <field name="model_id" ref="model_tickets_module_tickets_module"/>
+    <field name="domain_force">[]</field>
+    <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+  </record>
+
+
+
 </odoo>

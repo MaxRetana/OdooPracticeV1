@@ -8,6 +8,7 @@
             <tree string="Tickets">
                 <field name="name"/>
                 <field name="status"/>
+                <field name="assigned_user_id"/>
                 <field name="date_open"/>
                 <field name="date_closed" decoration-danger="date_closed"/>
             </tree>
@@ -15,23 +16,25 @@
     </record>
 
     <!-- Vista de Formulario -->
-    <record id="view_tickets_module_form" model="ir.ui.view">
-        <field name="name">tickets_module.tickets_module.form</field>
-        <field name="model">tickets_module.tickets_module</field>
-        <field name="arch" type="xml">
-            <form string="Ticket">
-                <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="description"/>
-                        <field name="status"/>
-                        <field name="date_open"/>
-                        <field name="date_closed" attrs="{'invisible': [('id', '=', False)]}"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
+    <record id="view_form_tickets_module" model="ir.ui.view">
+      <field name="name">tickets.module.form</field>
+      <field name="model">tickets_module.tickets_module</field>
+      <field name="arch" type="xml">
+        <form string="Tickets">
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="description"/>
+              <field name="date_open"/>
+              <field name="date_closed" attrs="{'invisible': [('id', '=', False)]}"/>
+              <field name="status"/>
+              <field name="assigned_user_id"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
     </record>
+
 
 
     <!-- Acción para abrir la vista de los tickets -->
@@ -40,6 +43,14 @@
         <field name="res_model">tickets_module.tickets_module</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+    <record id="tickets_module_rule_user" model="ir.rule">
+      <field name="name">Tickets: Only assigned to user</field>
+      <field name="model_id" ref="model_tickets_module_tickets_module"/>
+      <field name="domain_force">[('assigned_user_id', '=', user.id)]</field>
+      <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+  </record>
+
 
     <!-- Menú para acceder a los tickets -->
     <menuitem id="tickets_module_menu" name="Tickets" sequence="10"/>
